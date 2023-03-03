@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Giphy.com</string>
+    <string name="apikey">7jdLUZxrm1THJjrN18cDZD7XmS39PYQm</string>
+    <string name="end">Анимации закончились</string>
+    <string name="page">Страница №</string>
+    <string name="id">ID Gif:</string>
+    <string name="namegif">Название Gif:</string>
+</resources>
