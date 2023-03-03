@@ -17,7 +17,7 @@ class Activitygifinfo : AppCompatActivity() {
         val title: TextView = findViewById(R.id.nametext)
 
         Glide.with(this).asGif().load(intent.getStringExtra("url").toString()).into(image)
-        id.text = "${R.string.id} ${intent.getStringExtra("id").toString()}"
-        title.text = "${R.string.namegif} ${intent.getStringExtra("title").toString()}"
+        id.text = "${getString(R.string.id)} ${intent.getStringExtra("id").toString()}"
+        title.text = "${getString(R.string.namegif)} ${intent.getStringExtra("title").toString()}"
     }
 }

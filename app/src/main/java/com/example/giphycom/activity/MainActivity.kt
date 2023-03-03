@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         GifRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                listnumber.text = "Страница №$numberlist"
+                listnumber.text = "${getString(R.string.page)}$numberlist"
                 if (!recyclerView.canScrollVertically(1) && dy > 0) {
                     loadMoreData()
                 }
@@ -74,15 +74,15 @@ class MainActivity : AppCompatActivity() {
         RecAvaAdapter.loadMoreModule.isEnableLoadMore = false
         CoroutineScope(Dispatchers.Main).launch {
             progressbar.visibility = View.VISIBLE
-            val newItems = searchGifs("${R.string.apikey}", TextSearch.text.toString(), loadedItemCount)
+            val newItems = searchGifs( TextSearch.text.toString(), loadedItemCount)
             if (newItems.isNotEmpty()) {
                 loadedItemCount += 25
                 RecAvaAdapter.clear()
                 numberlist++
-                listnumber.text = "${R.string.page} $numberlist"
+                listnumber.text = "${getString(R.string.page)} $numberlist"
                 RecAvaAdapter.addGifs(newItems)
             } else {
-                Toast.makeText(this@MainActivity, R.string.end.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, getString(R.string.end), Toast.LENGTH_SHORT).show()
             }
             progressbar.visibility = View.GONE
             RecAvaAdapter.loadMoreModule.isEnableLoadMore = true
@@ -92,14 +92,14 @@ class MainActivity : AppCompatActivity() {
     fun request(s: String){
         RecAvaAdapter.clear()
         CoroutineScope(Dispatchers.Main).launch {
-            RecAvaAdapter.addGifs(searchGifs("${R.string.apikey}", s, 0))
+            RecAvaAdapter.addGifs(searchGifs( s, 0))
         }
     }
 
-    suspend fun searchGifs(apiKey: String, query: String, offset: Int): List<Gif> {
+    suspend fun searchGifs(query: String, offset: Int): List<Gif> {
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url("https://api.giphy.com/v1/gifs/search?api_key=$apiKey&q=$query&limit=25&offset=$offset&rating=g&lang=en")
+            .url("https://api.giphy.com/v1/gifs/search?api_key=${getString(R.string.apikey)}&q=$query&limit=25&offset=$offset&rating=g&lang=en")
             .build()
         val response = withContext(Dispatchers.IO) { client.newCall(request).execute() }
         val responseBody = response.body?.string()
